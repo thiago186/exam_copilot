@@ -37,7 +37,6 @@ class ImageDoc(BaseDoc, use_enum_values=True):
 class ExamTypes(str, Enum):
     """
     Existing exam types.
-    This code has not been tested yet.
     """
 
     free = "free"  # free correction
