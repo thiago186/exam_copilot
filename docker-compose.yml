@@ -11,7 +11,19 @@ services:
       POSTGRES_USER: exam-copilot-user
       POSTGRES_PASSWORD: exam-copilot-password
     volumes:
-      - chatAgents:/var/lib/postgresql/data
+      - postgresVolume:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:latest
+    container_name: exam-copilot-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo-user
+      MONGO_INITDB_ROOT_PASSWORD: mongo-password
+    volumes:
+      - mongoVolume:/data/db
 
 volumes:
-  chatAgents:
+  postgresVolume:
+  mongoVolume:

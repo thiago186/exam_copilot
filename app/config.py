@@ -4,7 +4,6 @@ from pydantic import BaseSettings, PostgresDsn
 
 load_dotenv()
 
-
 class Settings(BaseSettings):
     POSTGRES_DB: str
     POSTGRES_USER: str
@@ -16,6 +15,11 @@ class Settings(BaseSettings):
     JWT_AUTH_SECRET: str
     JWT_ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_SECONDS: int
+    MONGO_USER: str
+    MONGO_PASSWORD: str
+    MONGO_HOST: str
+    MONGO_PORT: str
+    MONGO_DB: str
 
     @property
     def database_url(self) -> PostgresDsn:
