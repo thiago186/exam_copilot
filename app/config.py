@@ -1,4 +1,5 @@
 import os
+import logging
 from typing import Any
 
 from dotenv import load_dotenv
@@ -44,6 +45,9 @@ class Settings(BaseSettings):
             port=self.DATABASE_PORT,
             path=f"/{self.POSTGRES_DB}",
         )
+
+    def get_logging_level(self) -> int:
+        return getattr(logging, self.LOG_LEVEL.upper())
 
 
 settings = Settings()

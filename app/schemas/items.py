@@ -25,6 +25,7 @@ class BaseDoc(BaseModel, use_enum_values=True):
 
     collection: CollectionsTypes
     owner_id: UUID = Field(default_factory=uuid4)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
 class ImageDoc(BaseDoc, use_enum_values=True):
