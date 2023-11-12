@@ -31,7 +31,7 @@ class ImageDoc(BaseDoc, use_enum_values=True):
     """Image document schema."""
 
     name: str
-    path: str
+    path: Optional[str] = ""
     exam_id: Optional[UUID] = Field(default_factory=uuid4)
     student_label: str
     question: int
