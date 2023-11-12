@@ -13,4 +13,3 @@ async def upload_and_create_image(image_doc: ImageDoc):
     image_doc = await aupload_image(image_doc)
     print(f"image_doc: {image_doc}") 
     await acreate_image_doc(image_doc)
-

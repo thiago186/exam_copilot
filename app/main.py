@@ -5,9 +5,12 @@ from typing import Annotated
 from fastapi import Depends, FastAPI
 
 from routers import login
+from routers import documents
 from schemas.users import User
+from schemas.items import ImageDoc
 
 
 app = FastAPI()
 
 app.include_router(login.router)
+app.include_router(documents.router)

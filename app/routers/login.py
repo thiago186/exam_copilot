@@ -8,6 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from config import settings
 import connectors.users_connector as users_connector
+from routers.router_utils import validate_token
 from services.auth import verify_jwt_token
 from schemas.users import User, UserBase
 from utils.exceptions import AuthenticationError
@@ -52,17 +53,6 @@ async def create_user(user_base: UserBase):
         if str(e) == "User already exists.":
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT, detail="User already exists.")
-
-def validate_token(request: Request):
-    token = request.cookies.get("token")
-    if not token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not authenticated")
-    
-    if token.startswith("Bearer "):
-        token = token[7:]
-    
-    return verify_jwt_token(token)
 
 @router.post("/reset-user-pwd", include_in_schema=False) 
 async def reset_user_password(token: str, user_email: str, new_password: str):
