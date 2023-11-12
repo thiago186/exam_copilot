@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from config import settings
 import connectors.users_connector as users_connector
-from dependencies.auth import verify_jwt_token
+from services.auth import verify_jwt_token
 from schemas.users import User, UserBase
 from utils.exceptions import AuthenticationError
 

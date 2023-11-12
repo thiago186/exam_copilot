@@ -32,11 +32,12 @@ class ImageDoc(BaseDoc, use_enum_values=True):
 
     name: str
     path: str
-    exam_id: Optional[UUID] = uuid4()
+    exam_id: Optional[UUID] = Field(default_factory=uuid4)
     student_label: str
     question: int
     page: int
     total_pages: int
+    firebase_id: Optional[str]
 
 
 class ExamTypes(str, Enum):
@@ -56,5 +57,5 @@ class ExamDoc(BaseModel, use_enum_values=True):
     """
 
     exam_name: str
-    exam_id: Optional[uuid4] = Field(default_factory=uuid4)
+    exam_id: Optional[UUID] = Field(default_factory=uuid4)
     exam_type: ExamTypes

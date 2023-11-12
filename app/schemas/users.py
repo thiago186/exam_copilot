@@ -8,7 +8,7 @@ from uuid import uuid4, UUID
 from sqlmodel import SQLModel, Field
 from pydantic import BaseModel, root_validator
 
-from dependencies.auth import encrypt_field, verify_field
+from services.auth import encrypt_field, verify_field
 
 class UserBase(BaseModel):
     """

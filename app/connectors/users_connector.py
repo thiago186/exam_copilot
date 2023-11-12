@@ -6,7 +6,7 @@ from sqlmodel import SQLModel, Session, create_engine, select
 from dotenv import load_dotenv
 
 from config import settings
-from dependencies.auth import (
+from services.auth import (
     verify_field,
     encrypt_field,
     generate_jwt_token,
