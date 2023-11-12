@@ -63,7 +63,7 @@ async def reset_user_password(token: str, user_email: str, new_password: str):
     Deal gracefully with the case of how to correctly reset passwords
     """
     if token == settings.USERS_RESET_PASSWORD_ENCRYPTED:
-        print(f"trying to change id: {user_email}")
+        logging.debug(f"trying to change id: {user_email}")
         await users_connector.change_user_password(user_email, new_password)
         return {"detail": "Password reset successfully."}
     else:
