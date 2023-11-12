@@ -6,4 +6,7 @@ app/venv/
 __pycache__/
 *.py[cod]
 app/exam-copilot-5dfe6-871961a22310.json
-app/exam-copilot-5dfe6-firebase-adminsdk-b1nx1-0dcd71b73f.json
+app/exam-copilot-5dfe6-firebase-adminsdk-b1nx1-0dcd71b73f.json,
+app/chave-privada.json
+*chave-privada.json
+

@@ -1,3 +1,8 @@
+"""
+This file contains the schemas used for the files
+on database and storage bucket.
+"""
+
 from datetime import datetime
 import logging
 from typing import Optional
