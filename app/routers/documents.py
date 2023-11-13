@@ -36,7 +36,7 @@ async def receive_document(file: UploadFile):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/upload_image": , status_code=200)
+@router.post("/upload_image" , status_code=200)
 async def create_image_doc(image_data: ImageDoc):
     """
     This function receives an image document data, checks on 

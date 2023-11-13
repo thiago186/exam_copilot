@@ -15,6 +15,15 @@ client = MongoClient(connection_string, server_api=ServerApi("1"))
 
 db = client[settings.MONGO_DB]
 
+async def ainsert_document(document: dict, collection: CollectionsTypes):
+    """Inserts a document on the database."""
+
+    collection = db[collection.value]
+
+    result = collection.insert_one(document)
+
+    return result.inserted_id
+
 async def acreate_image_doc(image: ImageDoc):
     """Creates a new image document on the database."""
     
