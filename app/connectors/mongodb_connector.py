@@ -1,6 +1,8 @@
 """ Contains the connectors for interacting with items inside 
 the mongodb database. 
 """
+
+from bson import json_util
 import json
 from uuid import UUID
 import logging
@@ -8,8 +10,11 @@ import logging
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
+
 from config import settings
+from connectors.connectors_utils import parse_json
 from schemas.items import CollectionsTypes, ImageDoc
+
 
 connection_string = f"mongodb://{settings.MONGO_USER}:{settings.MONGO_PASSWORD}@{settings.MONGO_HOST}"
 
@@ -46,4 +51,4 @@ async def aquery_items(query: dict, collection: CollectionsTypes):
     logging.debug(f"executing query: {query} on collection `{collection}`")
     result = collection.find(query)
 
-    return result
+    return list(result)

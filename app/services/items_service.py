@@ -7,6 +7,7 @@ import logging
 
 from schemas.items import ImageDoc, QuestionDoc
 from connectors.firebase_connector import aupload_image
+from connectors.connectors_utils import mongodb_to_serializable
 from connectors.mongodb_connector import acreate_image_doc, ainsert_document, aquery_items
 from schemas.items import CollectionsTypes
 
@@ -39,7 +40,9 @@ async def aget_exam_by_id(exam_id: str, owner_id: str) -> list:
         "owner_id": owner_id
     }
 
-    logging.debug(f"passing query `{query}` for aquery_items functions on collection {CollectionsTypes.QUESTIONS}")
-    result = await (aquery_items(query, CollectionsTypes.QUESTIONS))
+    logging.debug(f"passing query `{query}` for aquery_items functions.")
+    result = await aquery_items(query, CollectionsTypes.QUESTIONS)  
+    exam_questions = mongodb_to_serializable(result)
+    logging.info(f"exam questions retrieved succesfully: {exam_questions}")
 
-    return result
+    return exam_questions

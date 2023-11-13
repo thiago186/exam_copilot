@@ -23,7 +23,7 @@ class BaseDoc(BaseModel, use_enum_values=True):
     """Base document schema."""
 
     collection: CollectionsTypes
-    owner_id: UUID
+    owner_id: Optional[UUID]
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
