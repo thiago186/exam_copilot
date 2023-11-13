@@ -24,7 +24,7 @@ class BaseDoc(BaseModel, use_enum_values=True):
     """Base document schema."""
 
     collection: CollectionsTypes
-    owner_id: UUID = Field(default_factory=uuid4)
+    owner_id: UUID
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
@@ -33,12 +33,11 @@ class ImageDoc(BaseDoc, use_enum_values=True):
 
     name: str
     path: Optional[str] = ""
-    exam_id: Optional[UUID] = Field(default_factory=uuid4)
+    exam_id: UUID
     student_label: str
     question: int
     page: int
     total_pages: int
-    firebase_id: Optional[str]
 
 
 class ExamTypes(str, Enum):
