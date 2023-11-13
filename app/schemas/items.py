@@ -16,7 +16,6 @@ class CollectionsTypes(str, Enum):
     """Existing collections on the database."""
 
     IMAGE = "images"
-    EXAM = "exams"
     QUESTIONS = "questions"
 
 
@@ -40,7 +39,7 @@ class ImageDoc(BaseDoc, use_enum_values=True):
     total_pages: int
 
 
-class ExamTypes(str, Enum):
+class ExamCorrectionTypes(str, Enum):
     """
     Existing exam types.
     """
@@ -50,12 +49,16 @@ class ExamTypes(str, Enum):
     INSTRUCTED = "instructed"  # instructed correction
 
 
-class ExamDoc(BaseModel, use_enum_values=True):
+class QuestionDoc(BaseDoc, use_enum_values=True):
     """
-    Exam document schema.
+    Question document schema.
     This code has not been tested yet.
     """
 
     exam_name: str
-    exam_id: Optional[UUID] = Field(default_factory=uuid4)
-    exam_type: ExamTypes
+    exam_id: UUID
+    exam_field: str
+    correction_type: ExamCorrectionTypes
+    question_number: int
+    question_text: str
+    question_answer: str
