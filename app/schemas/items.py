@@ -17,7 +17,7 @@ class CollectionsTypes(str, Enum):
 
     IMAGE = "images"
     QUESTIONS = "questions"
-
+    
 
 class BaseDoc(BaseModel, use_enum_values=True):
     """Base document schema."""

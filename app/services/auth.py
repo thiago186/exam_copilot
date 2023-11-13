@@ -14,6 +14,22 @@ def encrypt_field(field: str):
     hashed_field = bcrypt.hashpw(field.encode("utf-8"), bcrypt.gensalt())
     return hashed_field.decode("utf-8")
 
+def decrypt_jwt(token: str):
+    """Decrypts a field using bcrypt."""
+    try:
+        payload = jwt.decode(token, settings.JWT_AUTH_SECRET, settings.JWT_ALGORITHM)
+        return payload
+
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Signature has expired."
+        )
+
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token."
+        )
+
 
 def verify_field(field: str, hashed_field: str):
     """Verifies a field using bcrypt."""
