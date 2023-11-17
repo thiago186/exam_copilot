@@ -61,10 +61,11 @@ def send_local_image_to_openai(query: str, encoded_image, **kwargs):
         "max_tokens": max_tokens,
         "messages": messages,
     }
+    
+    try:
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
-    response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-
-    if response.status_code != 200:
+    except Exception as e:
         raise OpenAIException(response.json())
 
     obj = {
