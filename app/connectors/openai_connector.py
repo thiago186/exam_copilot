@@ -22,6 +22,65 @@ headers = {
 }
 
 
+def send_online_image_to_openai(query: str, image_url, **kwargs):
+    """
+    Sends an online image to the openai api with the query.
+    If 'system_message' is in kwargs, it will be sent as a system message.
+    """
+
+    params = {
+        "model": "gpt-4-vision-preview",
+        'max_tokens': 300,
+        'temperature': 0,
+        **kwargs
+    }
+
+    messages = []    
+    if 'system_message' in kwargs:
+        system_message = kwargs['system_message']
+        messages.append({
+            "role": "system",
+            "content": system_message
+        })
+        params.pop('system_message')
+
+    messages.append({
+        "role": "user",
+        "content": [
+            {
+                "type": "text",
+                "text": query
+            },
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": image_url
+                }
+            }
+        ]
+    })
+    
+    params.update({"messages": messages})
+    
+    try:
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=params)
+        
+        if response.json().get('error'):
+            print(params)
+            raise OpenAIException(response.json()['error'])
+
+    except Exception as e:
+        raise OpenAIException(response.json())
+
+    obj = {
+        "prompt_tokens": response.json()["usage"]["prompt_tokens"],
+        "completion_tokens": response.json()["usage"]["completion_tokens"],
+        "total_tokens": response.json()["usage"]["total_tokens"],
+        "content": response.json()["choices"][0]["message"]["content"],
+    }    
+
+    return obj
+
 def send_local_image_to_openai(query: str, encoded_image, **kwargs):
     """
     Sends an encoded image to the openai api with the query.
@@ -61,7 +120,7 @@ def send_local_image_to_openai(query: str, encoded_image, **kwargs):
         "max_tokens": max_tokens,
         "messages": messages,
     }
-    
+
     try:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
