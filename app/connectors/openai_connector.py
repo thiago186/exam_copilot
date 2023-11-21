@@ -34,13 +34,17 @@ def send_online_image_to_openai(query: str, image_url, **kwargs):
         'temperature': 0,
         **kwargs
     }
+    params.update(kwargs)
 
-    messages = []    
+    messages = []  
     if 'system_message' in kwargs:
         system_message = kwargs['system_message']
         messages.append({
             "role": "system",
-            "content": system_message
+            "content": [
+                {"type": "text",
+                 "text": system_message,
+                }]
         })
         params.pop('system_message')
 
@@ -59,8 +63,13 @@ def send_online_image_to_openai(query: str, image_url, **kwargs):
             }
         ]
     })
-    
     params.update({"messages": messages})
+
+    if 'json_mode' in params:
+        params.update({"reponse_format": {"type": "json-object"}})
+        if messages[0]["role"] != 'system':
+            raise OpenAIException("The first message must be a system message with JSON instructions")
+        params.pop('json_mode')
     
     try:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=params)
@@ -87,9 +96,12 @@ def send_local_image_to_openai(query: str, encoded_image, **kwargs):
     If 'system_message' is in kwargs, it will be sent as a system message.
     """
 
-    max_tokens = 300
-    if 'max_tokens' in kwargs:
-        max_tokens = kwargs['max_tokens']
+    params = {
+        "model": "gpt-4-vision-preview",
+        'max_tokens': 300,
+        'temperature': 0,
+        **kwargs
+    }
 
     messages = []    
     if 'system_message' in kwargs:
@@ -114,15 +126,16 @@ def send_local_image_to_openai(query: str, encoded_image, **kwargs):
             }
         ]
     })
-    
-    payload = {
-        "model": "gpt-4-vision-preview",
-        "max_tokens": max_tokens,
-        "messages": messages,
-    }
+    params.update({"messages": messages})
+
+    if 'json_mode' in params:
+        params.update({"reponse_format": {"type": "json-object"}})
+        if messages[0]["role"] != 'system':
+            raise OpenAIException("The first message must be a system message with JSON instructions")
+        params.pop('json_mode')
 
     try:
-        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=params)
 
     except Exception as e:
         raise OpenAIException(response.json())

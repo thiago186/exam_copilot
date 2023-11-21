@@ -6,6 +6,6 @@ class UserNotFoundError(Exception):
     """Exception raised when a user is not found."""
     pass
 
-class OpenAIRequestError(Exception):
+class OpenAIException(Exception):
     """Exception raised when a request to OpenAI fails."""
     pass

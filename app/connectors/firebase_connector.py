@@ -30,7 +30,7 @@ async def aupload_image(image: ImageDoc):
     blob.upload_from_filename(image_path)
     blob.metadata = json.loads(image.json())
 
-    image.path = blob.public_url
+    image.url = blob.public_url
     image.name=new_name
 
     logging.info(f"Image uploaded to firebase: {image.name}")
