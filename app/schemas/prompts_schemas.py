@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from utils.prompts import BINARY_CORRECTION_PROMPT, BYNARY_CORRECTION_SYSTEM_PROMPT
 
 
-class CorrectionPrompt(BaseModel):
+class BinaryCorrectionPrompt(BaseModel):
     """Constructor for the correction prompt."""
 
     system_prompt:str = BYNARY_CORRECTION_SYSTEM_PROMPT

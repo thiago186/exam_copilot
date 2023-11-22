@@ -43,6 +43,34 @@ async def acreate_image_doc(image: ImageDoc):
 
     return result.inserted_id
 
+
+async def aupdate_image_doc(image: ImageDoc):
+    """Updates an existing image document in the database."""
+
+    img_json = json.loads(image.json())
+    collection = db[CollectionsTypes.IMAGE.value]
+
+    result = collection.update_one(
+        {"object_id": image.object_id},
+        {"$set": img_json}
+    )
+
+    return result.modified_count
+
+def update_image_doc(image: ImageDoc):
+    """Updates an existing image document in the database."""
+
+    img_json = json.loads(image.json())
+    collection = db[CollectionsTypes.IMAGE.value]
+
+    result = collection.update_one(
+        {"name": image.name},
+        {"$set": img_json}
+    )
+
+    return result.modified_count
+
+
 async def aquery_items(query: dict, collection: CollectionsTypes):
     """This function retrieves items based on a query dict."""
 

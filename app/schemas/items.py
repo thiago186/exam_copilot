@@ -25,6 +25,19 @@ class BaseDoc(BaseModel, use_enum_values=True):
     collection: CollectionsTypes
     owner_id: Optional[UUID]
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    object_id: Optional[str]
+
+
+class CorrectionSchema(BaseModel, use_enum_values=True):
+    """Base correction schema."""
+
+    is_correct: bool = False
+    correction_tokens: dict = {
+        "completion_tokens": "",
+        "prompt_tokens": "",
+        "total_tokens": ""
+    }
+    correction_comments: Optional[str]
 
 
 class ImageDoc(BaseDoc, use_enum_values=True):
@@ -37,6 +50,7 @@ class ImageDoc(BaseDoc, use_enum_values=True):
     question: int
     page: int
     total_pages: int
+    correction_results: Optional[CorrectionSchema] = CorrectionSchema()
 
 
 class ExamCorrectionTypes(str, Enum):

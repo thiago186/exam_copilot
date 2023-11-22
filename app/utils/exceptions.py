@@ -9,3 +9,7 @@ class UserNotFoundError(Exception):
 class OpenAIException(Exception):
     """Exception raised when a request to OpenAI fails."""
     pass
+
+class ResponseParsingError(Exception):
+    """Exception raised when a response cannot be parsed."""
+    pass
